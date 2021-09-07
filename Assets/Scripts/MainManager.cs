@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+using System.IO;
 
 public class MainManager : MonoBehaviour
 {
@@ -18,10 +22,16 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
-    
+    public string UserName; // new variable declared
+
+    public InputField iField;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
+        
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -72,5 +82,45 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+    }
+    public void BackonManu()
+    {
+        SceneManager.LoadScene(0);
+    }
+    public void Exit()
+    {
+
+#if UNITY_EDITOR
+        EditorApplication.ExitPlaymode();
+#else
+        Application.Quit(); // original code to quit Unity player
+#endif
+    }
+
+    class SaveData
+    {
+        public string UserName;
+        
+    }
+    public void SaveName()
+    {
+        SaveData data = new SaveData();
+        data.UserName = UserName;
+
+        string json = JsonUtility.ToJson(data);
+
+        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+    }
+
+    public void LoadName()
+    {
+        string path = Application.persistentDataPath + "/savefile.json";
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
+
+            UserName = data.UserName;
+        }
     }
 }
