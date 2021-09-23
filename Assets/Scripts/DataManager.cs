@@ -7,6 +7,8 @@ public class DataManager : MonoBehaviour
 {
     public UserName data;
 
+    public static DataManager Instance;
+
     private string file = "name.txt";
 
     void Awake()
@@ -55,6 +57,8 @@ public class DataManager : MonoBehaviour
                 return json;
             }
         }
+        else
+            Debug.LogWarning("File not Found");
         return "";
     }
     private string GetFilePath(string fileName)

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.AI;
 using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -22,16 +23,13 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
-    
+    private string playName;
 
     
-
-
 
     // Start is called before the first frame update
     void Start()
     {
-        
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -46,6 +44,10 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+
+        playName = DataManager.Instance.name;
+
+        ScoreText.text = $"{playName} Score : ";
     }
 
     private void Update()
@@ -75,7 +77,7 @@ public class MainManager : MonoBehaviour
     void AddPoint(int point)
     {
         m_Points += point;
-        ScoreText.text = $"Score : {m_Points}";
+        ScoreText.text = $"{playName} Score : {m_Points}";
     }
 
     public void GameOver()

@@ -12,27 +12,45 @@ public class UI : MonoBehaviour
 {
     public DataManager dataManager;
 
-    public Text playerName;
+    public GameObject canvas;
+    public GameObject canvasUser;
+    public GameObject canvasHigh;
+
+    public InputField playerName;
+
+    public Text playerNameHello;
     // Start is called before the first frame update
     void Start()
     {
         dataManager.Load();
-        playerName.text = "Hello" + dataManager.data.name + "!";
+        
+        playerNameHello.text = "Hello" + dataManager.data.name + "!";   
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        dataManager.Load();
         
+        playerNameHello.text = "Hello " + dataManager.data.name + "!";
     }
     public void UserNameScene()
     {
-        SceneManager.LoadScene(3);
+        canvas.SetActive(false);
+        canvasUser.SetActive(true);
     }
     public void HighScore()
     {
-        SceneManager.LoadScene(2);
+        canvas.SetActive(false);
+        canvasHigh.SetActive(true);
     }
+
+    public void BackonManu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public void StartNew()
     {
         SceneManager.LoadScene(1);
@@ -45,6 +63,15 @@ public class UI : MonoBehaviour
 #else
         Application.Quit(); // original code to quit Unity player
 #endif
+    }
+    public void ChangeName(string text)
+    {
+        Debug.Log(playerName.text);
+        dataManager.data.name = playerName.text;
+    }
+    public void ClickSave()
+    {
+        dataManager.Save();
     }
 
 }
