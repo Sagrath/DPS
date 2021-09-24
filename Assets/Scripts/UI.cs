@@ -18,6 +18,7 @@ public class UI : MonoBehaviour
 
     public InputField playerName;
 
+    
     public Text playerNameHello;
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,7 @@ public class UI : MonoBehaviour
         dataManager.Load();
         
         playerNameHello.text = "Hello" + dataManager.data.name + "!";   
+        
 
     }
 

@@ -5,11 +5,26 @@ using System.IO;
 
 public class DataManager : MonoBehaviour
 {
-    public UserName data;
+    public  UserName data;
 
     public static DataManager Instance;
 
+    public  DataManager dataManager;
+
     private string file = "name.txt";
+
+    public string pName;
+
+    void Start()
+    {
+        
+    }
+    private void Update()
+    {
+        dataManager.Load();
+        pName = dataManager.data.name;
+    }
+
 
     void Awake()
     {
@@ -21,6 +36,8 @@ public class DataManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
+
+
     }
     public void Save()
     {

@@ -23,9 +23,11 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
-    private string playName;
+    public string playName;
 
-    
+    public static MainManager Instance;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -45,13 +47,20 @@ public class MainManager : MonoBehaviour
             }
         }
 
-        playName = DataManager.Instance.name;
+        GameObject go = GameObject.Find("DataManager");
+        DataManager cs = go.GetComponent<DataManager>();
+        cs.Load();
+        string playName = cs.pName;
+        ScoreText.text = $"{playName} Score : 0";
 
-        ScoreText.text = $"{playName} Score : ";
     }
-
+    
     private void Update()
     {
+        GameObject go = GameObject.Find("DataManager");
+        DataManager cs = go.GetComponent<DataManager>();
+        cs.Load();
+        string playName = cs.pName;
         if (!m_Started)
         {
             if (Input.GetKeyDown(KeyCode.Space))
