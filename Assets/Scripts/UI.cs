@@ -44,13 +44,17 @@ public class UI : MonoBehaviour
     }
     public void HighScore()
     {
-        canvas.SetActive(false);
+        canvas.SetActive(false);        
         canvasHigh.SetActive(true);
     }
 
     public void BackonManu()
     {
-        SceneManager.LoadScene(0);
+        canvas.SetActive(true);
+        canvasHigh.SetActive(false);
+        canvasUser.SetActive(false);
+
+
     }
 
     public void StartNew()

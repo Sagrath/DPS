@@ -16,16 +16,20 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text HighScoreText;
     public GameObject GameOverText;
-    
+
     private bool m_Started = false;
-    private int m_Points;
-    
+    public int m_Points;
+
     private bool m_GameOver = false;
+    private bool m_ScoreRank = false;
 
     public string playName;
 
     public static MainManager Instance;
+
+    //public HighScoreData highScoreData;
 
 
 
@@ -34,8 +38,8 @@ public class MainManager : MonoBehaviour
     {
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
-        
-        int[] pointCountArray = new [] {1,1,2,2,5,5};
+
+        int[] pointCountArray = new[] { 1, 1, 2, 2, 5, 5 };
         for (int i = 0; i < LineCount; ++i)
         {
             for (int x = 0; x < perLine; ++x)
@@ -53,8 +57,16 @@ public class MainManager : MonoBehaviour
         string playName = cs.pName;
         ScoreText.text = $"{playName} Score : 0";
 
+        GameObject hs = GameObject.Find("HighScoreData");
+        HighScoreData hscs = hs.GetComponent<HighScoreData>();
+        hscs.Load();
+
+        string hsname = hscs.score.player[0];
+        int hspoint = hscs.score.points[0];
+        HighScoreText.text = $"Best Score : {hsname} : {hspoint}";
+
     }
-    
+
     private void Update()
     {
         GameObject go = GameObject.Find("DataManager");
@@ -85,14 +97,48 @@ public class MainManager : MonoBehaviour
 
     void AddPoint(int point)
     {
+        GameObject go = GameObject.Find("DataManager");
+        DataManager cs = go.GetComponent<DataManager>();
+        cs.Load();
+        string playName = cs.pName;
         m_Points += point;
         ScoreText.text = $"{playName} Score : {m_Points}";
     }
 
     public void GameOver()
     {
+        m_ScoreRank = true;
         m_GameOver = true;
         GameOverText.SetActive(true);
+        StartCoroutine(GameOverBlink());
+        GameObject hs = GameObject.Find("HighScoreData");
+        HighScoreData cs = hs.GetComponent<HighScoreData>();
+        cs.Load();
+        
+        GameObject go = GameObject.Find("DataManager");
+        DataManager pn = go.GetComponent<DataManager>();
+        pn.Load();
+        string playName = pn.pName;
+        if (m_ScoreRank)
+        {
+            for (int i = 0; i <= 4; i++)
+            {
+                if (cs.score.points[i] < m_Points)
+                {
+                    for (int j = 4; j > i; j--)
+                    {
+                        cs.score.player[j + 1] = cs.score.player[j];
+                        cs.score.points[j + 1] = cs.score.points[j];
+                    }
+                    cs.score.player[i] = playName;
+                    cs.score.points[i] = m_Points;
+                    cs.Save();
+                    m_ScoreRank = false;
+
+                }
+            }
+        }
+        
     }
     public void BackonManu()
     {
@@ -108,9 +154,27 @@ public class MainManager : MonoBehaviour
 #endif
     }
 
-   
+
     public void NoName()
     {
         //if no name display enter name text
+    }
+
+    private IEnumerator GameOverBlink()
+    {
+        while (m_GameOver)
+        {
+            if (GameOverText.activeInHierarchy)
+            {
+                GameOverText.SetActive(false);
+            }
+            else
+            {
+                GameOverText.SetActive(true);
+            }
+            yield return new WaitForSeconds(0.5f);
+
+        }
+        yield break;
     }
 }
