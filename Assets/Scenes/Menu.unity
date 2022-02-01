@@ -1519,7 +1519,7 @@ GameObject:
   - component: {fileID: 823753530}
   m_Layer: 5
   m_Name: CanvasHigh
-  m_TagString: Untagged
+  m_TagString: hs
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3421,6 +3421,11 @@ MonoBehaviour:
   HighScoreText2: {fileID: 223179672}
   HighScoreText3: {fileID: 961387864}
   HighScoreText4: {fileID: 425860706}
+  HighScore: 
+  HighScore1: 
+  HighScore2: 
+  HighScore3: 
+  HighScore4: 
 --- !u!1 &2129669476
 GameObject:
   m_ObjectHideFlags: 0

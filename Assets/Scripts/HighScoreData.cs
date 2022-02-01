@@ -21,6 +21,12 @@ public class HighScoreData : MonoBehaviour
     public Text HighScoreText3;
     public Text HighScoreText4;
 
+    public string HighScore;
+    public string HighScore1;
+    public string HighScore2;
+    public string HighScore3;
+    public string HighScore4;
+
     //public string pName;
 
     void Start()
@@ -30,19 +36,24 @@ public class HighScoreData : MonoBehaviour
         hscs.Load();
         string hsname = hscs.score.player[0];
         int hspoint = hscs.score.points[0];
-        HighScoreText.text = $"* {hsname} : {hspoint}*";
+        HighScore = $"* {hsname} : {hspoint}*";
+        HighScoreText.text = HighScore;       
         string hsname1 = hscs.score.player[1];
         int hspoint1 = hscs.score.points[1];
-        HighScoreText1.text = $" {hsname1} : {hspoint1}";
+        HighScore1 = $"* {hsname1} : {hspoint1}*";
+        HighScoreText1.text = HighScore1;
         string hsname2 = hscs.score.player[2];
         int hspoint2 = hscs.score.points[2];
-        HighScoreText2.text = $" {hsname2} : {hspoint2}";
+        HighScore2 = $"* {hsname2} : {hspoint2}*";
+        HighScoreText2.text = HighScore2;
         string hsname3 = hscs.score.player[3];
         int hspoint3 = hscs.score.points[3];
-        HighScoreText3.text = $" {hsname3} : {hspoint3}";
+        HighScore3 = $"* {hsname3} : {hspoint3}*";
+        HighScoreText3.text = HighScore3;
         string hsname4 = hscs.score.player[4];
         int hspoint4 = hscs.score.points[4];
-        HighScoreText4.text = $" {hsname4} : {hspoint4}";
+        HighScore4 = $"* {hsname4} : {hspoint4}*";
+        HighScoreText4.text = HighScore4;
     }
     private void Update()
     {
