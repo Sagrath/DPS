@@ -119,13 +119,13 @@ public class MainManager : MonoBehaviour
         DataManager pn = go.GetComponent<DataManager>();
         pn.Load();
         string playName = pn.pName;
-        while (m_ScoreRank)
+        if (m_ScoreRank)
         {
             for (int i = 0; i <= 4; i++)
             {
                 if (cs.score.points[i] < m_Points)
                 {                   
-                    for (int j = 3; j > i; j--)
+                    for (int j = 3; j >= i; j--)
                     {
                         cs.score.player[j+1] = cs.score.player[j];
                         cs.score.points[j+1] = cs.score.points[j];
@@ -134,22 +134,11 @@ public class MainManager : MonoBehaviour
                     cs.score.points[i] = m_Points;
                     cs.Save();
                     m_ScoreRank = false;
-                    
+                    break;
 
                 }
-               /* if (cs.score.points[i] < m_Points)
-                {
-                    for (int j = 3; j > i; j--)
-                    {
-                        cs.score.player[j+1] = cs.score.player[j];
-                        cs.score.points[j+1] = cs.score.points[j];
-                    }
-                    cs.score.player[0] = playName;
-                    cs.score.points[0] = m_Points;
-                    cs.Save();
-                    m_ScoreRank = false;
-                    break;
-                }*/
+               
+              
             }
         }
         
